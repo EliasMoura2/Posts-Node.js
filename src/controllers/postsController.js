@@ -1,9 +1,12 @@
 import Posts from '../models/Post';
 
-export const getAllPosts = async (req, res) => {
+export const findAll = async (req, res) => {
   try {
     const posts = await Posts.findAll({
-      attributes: ['id', 'title', 'image', 'category', 'date']
+      attributes: ['id', 'title', 'image', 'category', 'date'],
+      order: [
+        ['date', 'DESC'],
+      ]
     });
     res.status(200).json(posts);
   } catch (error) {
