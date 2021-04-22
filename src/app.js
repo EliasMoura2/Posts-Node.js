@@ -3,7 +3,7 @@ import logger from 'morgan';
 import path from 'path';
 import postsRoutes from './routes/posts';
 
-const app = express()
+const app = express();
 
 // Middlewares
 app.use(logger('dev'));
