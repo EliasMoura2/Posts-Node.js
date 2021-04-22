@@ -1,3 +1,5 @@
+import { unlink } from 'fs-extra';
+import path from 'path';
 import Post from '../models/Post';
 
 export const findAll = async (req, res) => {
@@ -13,13 +15,17 @@ export const findAll = async (req, res) => {
     res.status(200).json(posts);
 
   } catch (error) {
+
     console.log(error.message);
+
     res.status(500).json({message: 'Something goes wrong'});
+    
   }
 }
 
 export const findOne = async (req, res) => {
   try {
+
     let { id } = req.params;
 
     let post = await Post.findOne({
@@ -34,12 +40,15 @@ export const findOne = async (req, res) => {
       : res.status(200).json({message: 'Post not found!'});
 
   } catch (error) {
+
     console.log(error.message);
+
     res.status(500).json({message: 'Something goes wrong'});
+
   }
 }
 
-export const create = async (req, res) => {
+export const createPost = async (req, res) => {
   try {
 
     const { title, content, category, date } = req.body;
@@ -57,9 +66,39 @@ export const create = async (req, res) => {
   } catch (error) {
 
     console.log(error.message);
+    
     res.status(500).json({message: 'Something goes wrong'});
     
   }
 }
 
+export const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    let post = await Post.findOne({
+      where: { id },
+      attributes: ['image']
+    });
+
+    if(post){
+      const isDeleted = await Post.destroy({
+        where: { id }
+      });
+
+      if(isDeleted){
+        unlink(path.resolve(`./src/public${post.image}`));
+        res.status(200).json({message: 'Post deleted successfully'});
+      }
+    } else {
+      res.status(200).json({message: 'Post not found!'});
+    }
+  } catch (error) {
+
+    console.log(error.message);
+
+    res.status(500).json({message: 'Something goes wrong'});
+
+  }
+}
 

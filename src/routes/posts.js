@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as postsCtrl from '../controllers/postsController';
-import multer from 'multer';
-import * as uuid  from 'uuid';
 import path from 'path';
+import multer from 'multer';
+import * as postsCtrl from '../controllers/postsController';
+import * as uuid  from 'uuid';
 
 const router = Router();
 
@@ -30,12 +30,10 @@ const upload = multer({
 
 router.get('/posts', postsCtrl.findAll);
 router.get('/posts/:id', postsCtrl.findOne);
-router.post('/posts', [upload, postsCtrl.create]);
-router.patch('/', (req, res) => {
+router.post('/posts', [upload, postsCtrl.createPost]);
+router.patch('/posts', (req, res) => {
   res.json('PATCH update a post');
 });
-router.delete('/:id', (req, res) => {
-  res.json('DELETE delete a post')
-});
+router.delete('/posts/:id', postsCtrl.deletePost);
 
 module.exports = router;
