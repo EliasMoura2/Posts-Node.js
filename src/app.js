@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import postsRoutes from './routes/posts';
 
 const app = express()
 
@@ -7,8 +8,6 @@ const app = express()
 app.use(logger('dev'));
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Hello Alkemy');
-})
+app.use('/posts', postsRoutes);
 
 module.exports = app;
