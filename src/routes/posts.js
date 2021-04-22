@@ -3,10 +3,7 @@ import * as postsCtrl from '../controllers/postsController';
 const router = Router();
 
 router.get('/posts', postsCtrl.findAll);
-router.get('/posts/:id', (req, res) => {
-  const { id }= req.params;
-  res.json(`GET get post with id = ${id}`);
-});
+router.get('/posts/:id', postsCtrl.findOne);
 router.post('/', (req, res) => {
   res.json('POST create a new post');
 });
