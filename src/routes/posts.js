@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import * as postsCtrl from '../controllers/postsController';
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.json('GET get all posts');
-});
-router.get('/:id', (req, res) => {
+router.get('/posts', postsCtrl.getAllPosts);
+router.get('/posts/:id', (req, res) => {
   const { id }= req.params;
   res.json(`GET get post with id = ${id}`);
 });
