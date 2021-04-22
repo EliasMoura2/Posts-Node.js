@@ -1,9 +1,9 @@
-import Posts from '../models/Post';
+import Post from '../models/Post';
 
 export const findAll = async (req, res) => {
   try {
-    
-    const posts = await Posts.findAll({
+
+    const posts = await Post.findAll({
       attributes: ['id', 'title', 'image', 'category', 'date'],
       order: [
         ['date', 'DESC'],
@@ -22,7 +22,7 @@ export const findOne = async (req, res) => {
   try {
     let { id } = req.params;
 
-    let post = await Posts.findOne({
+    let post = await Post.findOne({
       where: { id },
       attributes: {
         exclude: ['createdAt', 'updatedAt']
@@ -37,4 +37,29 @@ export const findOne = async (req, res) => {
     console.log(error.message);
     res.status(500).json({message: 'Something goes wrong'});
   }
-} 
+}
+
+export const create = async (req, res) => {
+  try {
+
+    const { title, content, category, date } = req.body;
+
+    let post = new Post();
+    post.title = title;
+    post.content = content;
+    post.image = '/img/posts/' + req.file.filename;
+    post.category = category;
+    post.date = date;
+
+    await Post.create(post.dataValues);
+    res.status(201).json({message: 'Post created successfully'});
+
+  } catch (error) {
+
+    console.log(error.message);
+    res.status(500).json({message: 'Something goes wrong'});
+    
+  }
+}
+
+
