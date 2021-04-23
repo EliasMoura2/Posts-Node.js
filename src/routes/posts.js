@@ -31,9 +31,7 @@ const upload = multer({
 router.get('/posts', postsCtrl.findAll);
 router.get('/posts/:id', postsCtrl.findOne);
 router.post('/posts', [upload, postsCtrl.createPost]);
-router.patch('/posts', (req, res) => {
-  res.json('PATCH update a post');
-});
+router.patch('/posts/:id', [upload, postsCtrl.updatePost]);
 router.delete('/posts/:id', postsCtrl.deletePost);
 
 module.exports = router;

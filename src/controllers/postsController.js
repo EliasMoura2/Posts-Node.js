@@ -56,7 +56,7 @@ export const createPost = async (req, res) => {
     let post = new Post();
     post.title = title;
     post.content = content;
-    post.image = '/img/posts/' + req.file.filename;
+    post.image = `/img/posts/${req.file.filename}`;
     post.category = category;
     post.date = date;
 
@@ -69,6 +69,45 @@ export const createPost = async (req, res) => {
     
     res.status(500).json({message: 'Something goes wrong'});
     
+  }
+}
+
+export const updatePost = async (req,res) => {
+  try {
+
+    const { id } = req.params;
+    const update = req.body;
+
+    let post = await Post.findOne({
+      where: { id },
+      attributes: ['image']
+    });
+    
+    if(post){
+
+      if (req.file){
+        update.image = `/img/posts/${req.file.filename}`;
+        unlink(path.resolve(`./src/public${post.image}`));
+      }
+
+      await Post.update(
+          update,
+        {
+          where: { id }
+        }
+      );
+
+      res.status(200).json({message: 'Post updated successfully'});
+    } else {
+      res.status(200).json({message: 'Post not found!'});
+    }
+    
+  } catch (error) {
+    
+    console.log(error.message);
+
+    res.status(500).json({message: 'Something goes wrong'});
+
   }
 }
 
