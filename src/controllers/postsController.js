@@ -2,7 +2,7 @@ import { unlink } from 'fs-extra';
 import path from 'path';
 import Post from '../models/Post';
 
-export const findAll = async (req, res) => {
+export const findAll = async (req, res, next) => {
   try {
 
     const posts = await Post.findAll({
@@ -12,7 +12,10 @@ export const findAll = async (req, res) => {
       ]
     });
 
-    res.status(200).json(posts);
+    res.status(200).json({
+      data: posts, 
+      message: 'posts listed'
+    });
 
   } catch (error) {
 
@@ -23,7 +26,7 @@ export const findAll = async (req, res) => {
   }
 }
 
-export const findOne = async (req, res) => {
+export const findOne = async (req, res, next) => {
   try {
 
     let { id } = req.params;
@@ -36,7 +39,10 @@ export const findOne = async (req, res) => {
     });
 
     (post)
-      ? res.status(200).json(post)
+      ? res.status(200).json({ 
+        data: post, 
+        message: 'post retrieved'
+      })
       : res.status(200).json({message: 'Post not found!'});
 
   } catch (error) {
@@ -48,7 +54,7 @@ export const findOne = async (req, res) => {
   }
 }
 
-export const createPost = async (req, res) => {
+export const createPost = async (req, res, next) => {
   try {
 
     const { title, content, category, date } = req.body;
@@ -65,8 +71,12 @@ export const createPost = async (req, res) => {
     //   post.image = image;
     // }
 
-    await Post.create(post.dataValues);
-    res.status(201).json({message: 'Post created successfully'});
+    let postCreated = await Post.create(post.dataValues);
+
+    res.status(201).json({
+      data: postCreated.id,
+      message: 'Post created successfully'
+    });
 
   } catch (error) {
 
@@ -76,7 +86,7 @@ export const createPost = async (req, res) => {
   }
 }
 
-export const updatePost = async (req,res) => {
+export const updatePost = async (req,res, next) => {
   try {
 
     const { id } = req.params;
@@ -95,13 +105,13 @@ export const updatePost = async (req,res) => {
       }
 
       await Post.update(
-          update,
-        {
-          where: { id }
-        }
+        update,
+        { where: { id } }
       );
 
-      res.status(200).json({message: 'Post updated successfully'});
+      res.status(200).json({
+        message: 'Post updated successfully'
+      });
     } else {
       res.status(200).json({message: 'Post not found!'});
     }
@@ -109,13 +119,12 @@ export const updatePost = async (req,res) => {
   } catch (error) {
     
     console.log(error.message);
-
-    res.status(500).json({message: 'Something goes wrong'});
+    res.status(500).json({message: error.message});
 
   }
 }
 
-export const deletePost = async (req, res) => {
+export const deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
 
