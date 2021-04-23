@@ -31,4 +31,7 @@ DB_DIALECT = mysql | postgres | mariadb
 ```
 npm run dev
 ```
-
+## Documentation
+```
+https://documenter.getpostman.com/view/9109779/TzJx8cDj
+```
