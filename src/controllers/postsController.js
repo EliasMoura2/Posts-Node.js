@@ -21,7 +21,7 @@ export const findAll = async (req, res, next) => {
 
     console.log(error.message);
 
-    res.status(500).json({message: 'Something goes wrong'});
+    res.status(500).json({message: error.message});
     
   }
 }
@@ -39,17 +39,14 @@ export const findOne = async (req, res, next) => {
     });
 
     (post)
-      ? res.status(200).json({ 
-        data: post, 
-        message: 'post retrieved'
-      })
-      : res.status(200).json({message: 'Post not found!'});
+      ? res.status(200).json({ data: post, message: 'post retrieved' })
+      : res.status(404).json({ message: 'Post not found!' });
 
   } catch (error) {
 
     console.log(error.message);
 
-    res.status(500).json({message: 'Something goes wrong'});
+    res.status(500).json({ message: error.message });
 
   }
 }
@@ -65,11 +62,7 @@ export const createPost = async (req, res, next) => {
     post.category = category;
     post.date = date;
 
-    // if (req.file){
       post.image = `/img/posts/${req.file.filename}`;
-    // } else {
-    //   post.image = image;
-    // }
 
     let postCreated = await Post.create(post.dataValues);
 
@@ -81,7 +74,7 @@ export const createPost = async (req, res, next) => {
   } catch (error) {
 
     console.log(error.message);
-    res.status(500).json({message: error.message});
+    res.status(500).json({ message: error.message });
     
   }
 }
@@ -113,13 +106,13 @@ export const updatePost = async (req,res, next) => {
         message: 'Post updated successfully'
       });
     } else {
-      res.status(200).json({message: 'Post not found!'});
+      res.status(404).json({message: 'Post not found!'});
     }
     
   } catch (error) {
     
     console.log(error.message);
-    res.status(500).json({message: error.message});
+    res.status(500).json({ message: error.message });
 
   }
 }
@@ -143,7 +136,7 @@ export const deletePost = async (req, res, next) => {
         res.status(200).json({message: 'Post deleted successfully'});
       }
     } else {
-      res.status(200).json({message: 'Post not found!'});
+      res.status(404).json({message: 'Post not found!'});
     }
   } catch (error) {
 
