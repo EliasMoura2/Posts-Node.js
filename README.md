@@ -1,6 +1,11 @@
 # Posts-Node.js
 
 ## Create a database mysql
+### enter mysql bby terminal
+```
+$ mysql -u usuario -p
+```
+### create db
 ```
 CREATE DATABASE "myDB"
 ```
