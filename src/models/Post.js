@@ -1,5 +1,5 @@
 'use strict';
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/connection';
 
   class Post extends Model { };
@@ -55,7 +55,7 @@ import sequelize from '../database/connection';
         len: {
           args: [2,15],
           msg: "Must be between 2 and 15 characters long"
-        }// only allow values with length between 2 and 10
+        }
       }
     },
     date: {
