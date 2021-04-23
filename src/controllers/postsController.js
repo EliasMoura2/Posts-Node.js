@@ -56,9 +56,14 @@ export const createPost = async (req, res) => {
     let post = new Post();
     post.title = title;
     post.content = content;
-    post.image = `/img/posts/${req.file.filename}`;
     post.category = category;
     post.date = date;
+
+    // if (req.file){
+      post.image = `/img/posts/${req.file.filename}`;
+    // } else {
+    //   post.image = image;
+    // }
 
     await Post.create(post.dataValues);
     res.status(201).json({message: 'Post created successfully'});
@@ -66,8 +71,7 @@ export const createPost = async (req, res) => {
   } catch (error) {
 
     console.log(error.message);
-    
-    res.status(500).json({message: 'Something goes wrong'});
+    res.status(500).json({message: error.message});
     
   }
 }
