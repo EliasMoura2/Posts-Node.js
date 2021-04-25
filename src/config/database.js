@@ -1,7 +1,8 @@
 
-require('dotenv').config();
+import dotenv from 'dotenv'
+dotenv.config();
 
-module.exports = {
+export const config = {
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '',
   database: process.env.DB_NAME || 'posts',

@@ -1,8 +1,8 @@
-'use strict';
+
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/connection';
 
-  class Post extends Model { };
+  export default class Post extends Model { };
 
   Post.init({
     id: {
@@ -74,5 +74,3 @@ import sequelize from '../database/connection';
     modelName: 'post',
     tableName: 'posts'
   });
-
-module.exports =  Post;
