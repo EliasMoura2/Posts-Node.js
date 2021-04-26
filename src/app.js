@@ -14,6 +14,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Routes
+
 app.use('/api', postsRoutes);
 
-module.exports = app;
+app.get('/', (req, res) => {
+  res.status(200).json({message: 'Welcome!'});
+})
+
+export default app;
